@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Portal Hub</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #2d3748;
+            --text-muted: #4a5568;
+            --primary: #4a90e2;
+            --primary-hover: #357abd;
+            --radius: 12px;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.12);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            margin: 0;
+            padding: 60px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1040px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            margin: 0 0 12px 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #1a202c;
+        }
+
+        header p {
+            margin: 0;
+            color: var(--text-muted);
+            font-size: 1.15rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 32px 24px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(74, 144, 226, 0.3);
+        }
+
+        .card h2 {
+            margin: 0 0 12px 0;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1a202c;
+        }
+
+        .card p {
+            margin: 0 0 28px 0;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: block;
+            text-align: center;
+            padding: 12px 20px;
+            background: var(--primary);
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.2);
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Application Portal Hub</h1>
+            <p>Select a decoupled module interface component below to manage records</p>
+        </header>
+
+        <main class="grid">
+            <div class="card">
+                <div>
+                    <h2>Main Landing Page</h2>
+                    <p>Lorem ipsum dolor sit amet, entry layout configurations and general visitor landing parameters.</p>
+                </div>
+                <a href="./index.html" target="_blank" class="btn">Launch Page</a>
+            </div>
+            
+            <div class="card">
+                <div>
+                    <h2>Customer Registration</h2>
+                    <p>Lorem ipsum dolor sit amet, simplified client self-enrollment form utilizing standard fetch APIs.</p>
+                </div>
+                <a href="../frontend-admin/src/customer_registration.html" target="_blank" class="btn">Open Registration</a>
+            </div>
+
+            <div class="card">
+                <div>
+                    <h2>Customer Database List</h2>
+                    <p>Lorem ipsum dolor sit amet, layout parsing verification and active verification structures.</p>
+                </div>
+                <a href="../frontend-admin/src/customer_list.html" target="_blank" class="btn">View Records</a>
+            </div>
+
+            <div class="card">
+                <div>
+                    <h2>Store Replica View</h2>
+                    <p>Lorem ipsum dolor sit amet, dynamic runtime user queries and personalized replica interfaces.</p>
+                </div>
+                <a href="../frontend-replica/src/index.html" target="_blank" class="btn">Open Store</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Core Infrastructure Portal Hub. All rights reserved.</p>
+        </footer>
+    </div>
+
+</body>
+</html>

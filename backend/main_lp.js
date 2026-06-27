@@ -1,3 +1,5 @@
+//backend\main_lp.js
+
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
@@ -14,26 +16,20 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Core API Routers
 app.use('/api', arCustomerSelfEnrollRouter);
 app.use('/api', arCustomerReplicaRouter);
 app.use('/api', arCustomerVerifyRouter);
 
+// Root portal entry point - Serves your standard public/index.html file
 app.get('/', (req, res) => {    
-    const vlUrl = path.join(__dirname, 'index.html');
+    const vlUrl = path.join(__dirname, 'public', 'index.html');
     try {
         res.sendFile(vlUrl);
     } catch (error) {
         console.error('Error ', error); 
         res.status(500).send('Internal Server Error');
     }
-});
-
-app.get('/store/:name', (req, res) => {
-    const vlReplikaid = req.params.name;
-    const vlFilePath = path.join(__dirname, 'index.html');   
-    const vlHtmlContent = require('fs').readFileSync(vlFilePath, 'utf-8');
-    const vlModifiedHtmlContent = vlHtmlContent.replace(/{{param1}}/g, vlReplikaid);
-    res.send(vlModifiedHtmlContent);
 });
 
 app.listen(port, () => {

@@ -1,5 +1,5 @@
-//var vgUrl_api = "https://wsapi.ayobel.com/api/";
-var vgUrl_api = "http://localhost:8080/api/";
+//var vgUrl_api = "https://your_domain/";
+var vgUrl_api = "http://localhost:8081/";
 
 function fn_Logo() {
     const vlObj = document.getElementById("obj_logo");
