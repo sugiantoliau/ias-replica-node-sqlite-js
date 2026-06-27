@@ -1,0 +1,5 @@
+copy tree
+tree /f /a > structure_folder.txt
+
+
+npm install sqlite3

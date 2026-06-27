@@ -1,0 +1,174 @@
+Folder PATH listing for volume System
+Volume serial number is 02F5-457E
+C:.
+|   kterangan.txt
+|   LICENSE
+|   README.md
+|   structure_folder.txt
+|   
++---backend
+|   |   main_lp.js
+|   |   
+|   +---database
+|   |       sql_create_table.sql
+|   |       
+|   \---src
+|       +---api
+|       |       ar_customer_replica.js
+|       |       ar_customer_self_enroll.js
+|       |       ar_customer_verify.js
+|       |       
+|       \---shared
++---frontend-admin
+|   +---shared
+|   |   \---pagesetting
+|   |           ar_member_list.js
+|   |           general_function.js
+|   |           in_product_detail.js
+|   |           in_product_summary.js
+|   |           page_setting.js
+|   |           styles.css
+|   |           
+|   \---src
+|           customer_list.html
+|           customer_registration.html
+|           
+\---frontend-replica
+    +---shared
+    |   \---pagesetting
+    |           ar_member_list.js
+    |           general_function.js
+    |           in_product_detail.js
+    |           in_product_summary.js
+    |           page_setting.js
+    |           script.js
+    |           styles.css
+    |           
+    \---src
+        |   index.html
+        |   
+        +---css
+        |       .DS_Store
+        |       bootstrap.css
+        |       bootstrap.min.css
+        |       font-awesome.min.css
+        |       icomoon.css
+        |       owl.carousel.min.css
+        |       responsive.css
+        |       style original (2).css
+        |       style original.css
+        |       style.css
+        |       
+        +---fonts
+        |       fontawesome-webfont.eot
+        |       fontawesome-webfont.svg
+        |       fontawesome-webfont.ttf
+        |       fontawesome-webfont.woff
+        |       fontawesome-webfont.woff2
+        |       FontAwesome.otf
+        |       IcoMoon-Free.ttf
+        |       Poppins-Black.ttf
+        |       Poppins-BlackItalic.ttf
+        |       Poppins-Bold.ttf
+        |       Poppins-BoldItalic.ttf
+        |       Poppins-ExtraBold.ttf
+        |       Poppins-ExtraBoldItalic.ttf
+        |       Poppins-ExtraLight.ttf
+        |       Poppins-ExtraLightItalic.ttf
+        |       Poppins-Italic.ttf
+        |       Poppins-Light.ttf
+        |       Poppins-LightItalic.ttf
+        |       Poppins-Medium.ttf
+        |       Poppins-MediumItalic.ttf
+        |       Poppins-Regular.ttf
+        |       Poppins-SemiBold.ttf
+        |       Poppins-SemiBoldItalic.ttf
+        |       Poppins-Thin.ttf
+        |       Poppins-ThinItalic.ttf
+        |       
+        +---images
+        |   |   .DS_Store
+        |   |   about.png
+        |   |   banner_img.png
+        |   |   banner_img2.png
+        |   |   banner_img3.png
+        |   |   body_bg.png
+        |   |   loading.gif
+        |   |   logo.png
+        |   |   logo1.png
+        |   |   menu_icon.png
+        |   |   te.png
+        |   |   xabout.png
+        |   |   xbanner_img.png
+        |   |   
+        |   \---logo_ayobel
+        |           ayobel_100.png
+        |           ayobel_1000.png
+        |           ayobel_200.png
+        |           ayobel_2481.png
+        |           ayobel_300.png
+        |           ayobel_50.png
+        |           ayobel_500.png
+        |           favicon.ico
+        |           
+        \---js
+            |   .DS_Store
+            |   bootstrap.bundle.min.js
+            |   bootstrap.js
+            |   bootstrap.min.js
+            |   custom.js
+            |   jquery-3.0.0.min.js
+            |   jquery.min.js
+            |   
+            \---revolution
+                |   .DS_Store
+                |   
+                +---assets
+                |       coloredbg.png
+                |       gridtile.png
+                |       gridtile_3x3.png
+                |       gridtile_3x3_white.png
+                |       gridtile_white.png
+                |       loader.gif
+                |       
+                +---css
+                |       closedhand.html
+                |       layers.css
+                |       navigation.css
+                |       openhand.html
+                |       settings.css
+                |       
+                +---fonts
+                |   +---pe-icon-7-stroke
+                |   |   +---css
+                |   |   |       pe-icon-7-stroke.css
+                |   |   |       
+                |   |   \---fonts
+                |   |           Pe-icon-7-strokebb1d.eot
+                |   |           Pe-icon-7-strokebb1d.svg
+                |   |           Pe-icon-7-strokebb1d.ttf
+                |   |           Pe-icon-7-strokebb1d.woff
+                |   |           Pe-icon-7-stroked41d.eot
+                |   |           
+                |   \---revicons
+                |           revicons90c6.eot
+                |           revicons90c6.svg
+                |           revicons90c6.ttf
+                |           revicons90c6.woff
+                |           
+                \---js
+                    |   .DS_Store
+                    |   jquery.themepunch.revolution.min.js
+                    |   jquery.themepunch.tools.min.js
+                    |   
+                    \---extensions
+                            revolution.extension.actions.min.js
+                            revolution.extension.carousel.min.js
+                            revolution.extension.kenburn.min.js
+                            revolution.extension.layeranimation.min.js
+                            revolution.extension.migration.min.js
+                            revolution.extension.navigation.min.js
+                            revolution.extension.parallax.min.js
+                            revolution.extension.slideanims.min.js
+                            revolution.extension.video.min.js
+                            

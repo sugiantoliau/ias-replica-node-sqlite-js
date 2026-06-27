@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replica Store Landing Page</title>
+
+    <link href="../shared/pagesetting/styles.css" rel="stylesheet">
+    <script src="../shared/pagesetting/script.js"></script>
+
+    <script>
+        var vlID_Replica;
+        var vlID_MobileNo;
+        var vlID_Email;
+        var vlID_Website;
+        var vlID_Store;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fn_GetLookupID();
+        });
+
+        function fn_GetLookupID() {
+            var url = window.location.href;
+            var searchParams = new URLSearchParams(new URL(url).search);
+            var vlParam_ID = searchParams.get('vpid');
+
+            if (vlParam_ID !== null && vlParam_ID !== "") {
+                localStorage.setItem('idreplica', vlParam_ID);
+            }
+
+            if (vlParam_ID === null || vlParam_ID === "") {
+                vlParam_ID = localStorage.getItem('idreplica');
+                if (vlParam_ID === null || vlParam_ID === "") {
+                    console.error("empty data");
+                    return;
+                }
+            }
+
+            var vlUrl_file = "/ar_webreplica?vpid=";
+            var vlUrl = (typeof vgUrl_api !== "undefined" ? vgUrl_api : "") + vlUrl_file + vlParam_ID;
+            var jwt = localStorage.getItem('jwt');
+            
+            // Replaced $.ajax with Vanilla JS fetch
+            fetch(vlUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + jwt,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Server responded with status ' + response.status);
+                }
+                return response.json();
+            })
+            .then(function (obj) {
+                if (obj && obj.Data) {
+                    // Replaced $.each with standard Array.prototype.forEach
+                    obj.Data.forEach(function (item) {
+                        if (item.ID) {
+                            //vlID_Replica = item.ID;
+                        }
+
+                        if (item.Name) {
+                            vlID_Name = item.Name;
+                        }
+
+                        if (item.ReplikaID) {
+                            vlID_Replica = item.ID;
+                        }
+
+                        if (item.Mobile) {
+                            vlID_MobileNo = item.Mobile;
+
+                            var label_WhatsappLink = document.getElementById("label_WhatsappLink");
+                            if (label_WhatsappLink) {
+                                label_WhatsappLink.href = "https://wa.me/" + vlID_MobileNo;
+                                label_WhatsappLink.innerHTML += " " + vlID_MobileNo;
+                            }
+
+                            var label_WhatsappFloating = document.getElementById("label_WhatsappFloating");
+                            if (label_WhatsappFloating) {
+                                label_WhatsappFloating.href = "https://wa.me/" + vlID_MobileNo;
+                            }
+
+                            var vllabel_id_mobile_text = document.getElementById("label_id_mobile_text");
+                            if (vllabel_id_mobile_text) {
+                                vllabel_id_mobile_text.innerHTML += "Whatsapp:";
+                            }
+                        }
+
+                        if (item.Email) {
+                            vlID_Email = item.Email;
+                            var vllabel_id_email_text = document.getElementById("label_id_email_text");
+                            if (vllabel_id_email_text) {
+                                vllabel_id_email_text.innerHTML += vlID_Email;
+                            }
+                        }
+
+                        if (item.Website) {
+                            vlID_Website = item.Website;
+                        }
+                    });
+                } else {
+                    console.error("Invalid JSON response or missing data.");
+                }
+            })
+            .catch(function (error) {
+                alert('Error: ' + error.message);
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <div>
+            <ul>
+                <li>
+                    <a id="label_WhatsappLink" href="" target="_blank">
+                        <span id="label_id_mobile_text"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" target="_blank">
+                        <span id="label_id_email_text"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h1>Lorem Ipsum Dolor</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac convallis nisl. Phasellus eget tortor sed risus pellentesque interdum ut vitae metus.</p>
+        </section>
+
+        <section>
+            <h2>Consectetur Adipiscing</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+        </section>
+
+        <section>
+            <h2>Sed ut Perspiciatis</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mollis pretium lorem primis senectus habitasse erat lectus ad dictumst. Pretium non class ridiculus platea fames netus curae accumsan.</p>
+        </section>
+    </main>
+
+    <a id="label_WhatsappFloating" href="" target="_blank">
+        <span>Chat on WhatsApp</span>
+    </a>
+
+    <footer>
+        <p>&copy; 2026 All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

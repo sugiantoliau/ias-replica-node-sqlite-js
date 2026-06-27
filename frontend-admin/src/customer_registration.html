@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reseller Registration</title>
+    
+    <link href="../shared/pagesetting/styles.css" rel="stylesheet">
+    <script src="../shared/pagesetting/script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            if (typeof fn_whatsapp_floating === "function") {
+                fn_whatsapp_floating();
+            }
+            fn_GetLookupID();
+        });
+        
+        function fn_Clear() {
+            document.getElementById('txReffID').value = '';
+            document.getElementById('txUserID').value = '';
+            document.getElementById('txPassword').value = '';
+            document.getElementById('txRePassword').value = '';
+            document.getElementById('txName').value = '';
+            document.getElementById('txMobile').value = '';
+            document.getElementById('txEmail').value = '';
+            document.getElementById('txReplicaID').value = '';
+        }
+
+        function fn_FormAction() {
+            if (!fn_Form_Verification()) {
+                return;
+            }
+            fn_Form_Action();            
+        }
+
+        function fn_GetLookupID() {
+            var url = window.location.href;
+            var searchParams = new URLSearchParams(new URL(url).search);
+            var vlParam_ID = searchParams.get('vpid');
+            var vlObj = document.getElementById("txReffID");
+            
+            if (vlParam_ID === null) {
+                vlParam_ID = "";
+            } else {
+                vlParam_ID = vlParam_ID.trim();
+            }
+            
+            if (vlParam_ID == "") {
+                vlObj.readOnly = false;
+            } else {
+                vlObj.value = vlParam_ID;
+                vlObj.readOnly = true;
+            }
+        }
+
+        function fn_Form_Verification() {
+            var vlObj, vlObj2;
+
+            vlObj = document.getElementById('txUserID').value;
+            if (!vlObj || vlObj.trim() === "") {
+                alert('Fill in the Userid');
+                return false;
+            }
+
+            vlObj = document.getElementById('txPassword').value;
+            if (!vlObj || vlObj.trim() === "") {
+                alert('Fill in the Password');
+                return false;
+            }
+
+            vlObj = document.getElementById('txRePassword').value;
+            if (!vlObj || vlObj.trim() === "") {
+                alert('Fill in the Re Type Password');
+                return false;
+            }
+            
+            vlObj = document.getElementById('txPassword').value;
+            vlObj2 = document.getElementById('txRePassword').value;
+            if (vlObj != vlObj2) {
+                alert('Fill in the Password and Retype Password is not same');
+                return false;
+            }
+
+            vlObj = document.getElementById('txName').value;
+            if (!vlObj || vlObj.trim() === "") {
+                alert('Fill in the Name');
+                return false;
+            }
+
+            vlObj = document.getElementById('txMobile').value;
+            if (!vlObj || vlObj.trim() === "") {
+                alert('Fill in the mobile number');
+                return false;
+            }
+
+            if (vlObj && vlObj.trim() !== "") {
+                if (isNaN(vlObj)) {
+                    alert('Fill in mobile only contains numeric only');
+                    return false;
+                }
+            }
+
+            vlObj = document.getElementById('txEmail').value;
+            if (!vlObj || vlObj.trim() === "") {
+                alert('Fill in the email address');
+                return false;
+            }
+
+            if (vlObj && vlObj.trim() !== "") {
+                var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(vlObj)) {
+                    alert('Fill in email with the correct format');
+                    return false;
+                }
+            }
+
+            vlObj = document.getElementById('txReplicaID').value;
+            if (!vlObj || vlObj.trim() === "") {
+                alert('Fill in Nama Toko');
+                return false;
+            }         
+            return true;
+        }
+
+        function fn_Form_Action() {
+            var vlUrl_file = "/api/ar_customer_self_enroll";
+            var vlUrl = (typeof vgUrl_api !== "undefined" ? vgUrl_api : "") + vlUrl_file;
+
+            var payload = {
+                vpReffID: document.getElementById("txReffID").value,
+                vpUsername: document.getElementById("txUserID").value,
+                vpPassword: document.getElementById("txPassword").value,
+                vpName: document.getElementById("txName").value,
+                vpMobileNo: document.getElementById("txMobile").value,
+                vpEmail: document.getElementById("txEmail").value,
+                vpReplicaid: document.getElementById("txReplicaID").value
+            };
+
+            fetch(vlUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + (typeof vgJWT !== "undefined" ? vgJWT : "")
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Server responded with status ' + response.status);
+                }
+                return response.json();
+            })
+            .then(function (data) {
+                alert('Registration successful!');
+                fn_Clear();
+            })
+            .catch(function (error) {
+                alert('Error: ' + error.message);
+            });
+        }
+    </script>
+</head>
+
+<body>   
+    <div id="pnHEADER">
+        <label for="lbTitle">
+            <b><h3>Formulir Pendaftaran Reseller</h3></b>
+        </label>
+        <br>
+        <label id="lbMessage"></label>
+    </div>
+
+    <div id="pnFILL">
+        <label for="txReffID">Referral ID</label>
+        <br>
+        <input type="text" id="txReffID" placeholder="Masukkan Referral ID">
+        <br><br>
+
+        <label for="txUserID">Userid:</label>
+        <br>
+        <input type="text" id="txUserID" placeholder="Masukkan Userid">
+        <br><br>
+
+        <label for="txPassword">Password:</label>
+        <br>
+        <input type="password" id="txPassword" placeholder="Masukkan Password">
+        <br><br>
+
+        <label for="txRePassword">Ulangi Password:</label>
+        <br>
+        <input type="password" id="txRePassword" placeholder="Masukkan Password">
+        <br><br>
+
+        <label for="txName">Nama:</label>
+        <br>
+        <input type="text" id="txName" placeholder="Masukkan Nama">
+        <br><br>
+
+        <label for="txMobile">No Handphone:</label>
+        <br>
+        <input type="text" id="txMobile" placeholder="Masukkan No Handphone">
+        <br><br>
+
+        <label for="txEmail">Email:</label>
+        <br>
+        <input type="text" id="txEmail" placeholder="Masukkan alamat email">
+        <br><br>
+
+        <label for="txReplicaID">Nama Toko:</label>
+        <br>
+        <input type="text" id="txReplicaID" placeholder="Masukkan Nama Toko yang diinginkan">
+        <br><br>
+
+        <div class="btn-group">
+            <button type="button" onclick="fn_FormAction()">Save</button>
+            <button type="button" onclick="fn_Clear()">Cancel</button>
+        </div>
+    </div>
+</body>
+
+</html>
