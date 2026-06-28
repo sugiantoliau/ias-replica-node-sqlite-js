@@ -1,5 +1,6 @@
 replica-node-sqlite-js
 
+
 copy tree
 tree /f /a > structure_folder.txt
 
@@ -28,7 +29,7 @@ http://localhost:8081
 
 Change this:
 frontend-admin\shared\js\script.js
+frontend-replica\shared\js\script.js
 
 
 
-del path\to\your\database.db

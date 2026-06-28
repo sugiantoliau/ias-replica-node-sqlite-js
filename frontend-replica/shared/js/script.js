@@ -1,7 +1,7 @@
 var vgUrl_api = "http://localhost:8081";
-var vgUrl_web = "http://www.ayobel.com/";
-var vgUrl_member = "https://login.ayobel.com/api/";
-var vgUrl_reseller = "https://reseller.ayobel.com/api/";
+var vgUrl_web = "http://www.site.com/";
+var vgUrl_member = "https://login.site.com/api/";
+var vgUrl_reseller = "https://reseller.site.com/api/";
 
 
 
