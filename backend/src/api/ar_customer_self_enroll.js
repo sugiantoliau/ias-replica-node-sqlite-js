@@ -1,3 +1,5 @@
+// backend\src\api\ar_customer_self_enroll.js
+
 const express = require("express"); 
 const cors = require("cors");
 const crypto = require("crypto");
@@ -11,12 +13,13 @@ router.post('/ar_customer_self_enroll', (req, res) => {
     const vl_reff_id = req.body.vpReffID;
     const vl_login_id = req.body.vpUsername;
     const vl_login_password = req.body.vpPassword;
+    const vl_customer_id = req.body.vpCustomerid;
     const vl_customer_name = req.body.vpName;
     const vl_mobile_no = req.body.vpMobileNo;
     const vl_email = req.body.vpEmail;
     const vl_replica_id = req.body.vpReplicaid;
     
-    const vl_customer_id = crypto.randomUUID().substring(0, 10);
+    //const vl_customer_id = crypto.randomUUID().substring(0, 10);
     const vl_join_date = new Date().toISOString(); 
     const vl_recruiter_id = vl_reff_id;
     const vl_upline_id = vl_reff_id;

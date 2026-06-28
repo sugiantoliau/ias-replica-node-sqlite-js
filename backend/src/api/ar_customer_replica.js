@@ -1,3 +1,5 @@
+//backend/src/api/ar_customer_replica.js
+ 
 const express = require("express"); 
 const cors = require("cors");
 const db = require('../config/db.js');
@@ -5,7 +7,7 @@ const db = require('../config/db.js');
 const router = express.Router();
 router.use(cors());
 
-router.get('/ar_replica', (req, res) => {
+router.get('/ar_customer_replica', (req, res) => {
   try {
     const { vpid } = req.query;
     const params = [];
@@ -31,7 +33,7 @@ router.get('/ar_replica', (req, res) => {
   }
 });
 
-router.post('/ar_replica', (req, res) => {
+router.post('/ar_customer_replica', (req, res) => {
   try {    
     const vlId = req.body.vpid;
     const params = [];
@@ -57,7 +59,7 @@ router.post('/ar_replica', (req, res) => {
   }
 });
 
-router.get('/ar_replica_lookup', (req, res) => {
+router.get('/ar_customer_replica_lookup', (req, res) => {
   try {
     const { vpid } = req.query;
     const params = [];

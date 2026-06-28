@@ -1,12 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <title>Replica Store Landing Page</title>    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Replica Store Landing Page</title>
+    <link href="../shared/css/styles.css" rel="stylesheet">
+    <script src="../shared/js/script.js"></script>
 
-    <link href="../shared/pagesetting/styles.css" rel="stylesheet">
-    <script src="../shared/pagesetting/script.js"></script>
+    <!-- START Whatsapp Floating -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+    <style>
+        /* Add WA floating button CSS */
+        .floating {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #fff;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px #999;
+            z-index: 100;
+        }
+
+        .fab-icon {
+            margin-top: 16px;
+        }
+    </style>
+
+    <a id="label_WhatsappFloating" href="" class="floating" target="_blank">
+        <i class="fab fa-whatsapp fab-icon"></i>
+    </a>
+    <!-- END Whatsapp Floating -->
 
     <script>
         var vlID_Replica;
@@ -16,7 +43,7 @@
         var vlID_Store;
 
         document.addEventListener("DOMContentLoaded", function () {
-            fn_GetLookupID();
+            fn_GetLookupID();            
         });
 
         function fn_GetLookupID() {
@@ -35,12 +62,11 @@
                     return;
                 }
             }
-
-            var vlUrl_file = "/ar_webreplica?vpid=";
-            var vlUrl = (typeof vgUrl_api !== "undefined" ? vgUrl_api : "") + vlUrl_file + vlParam_ID;
-            var jwt = localStorage.getItem('jwt');
             
-            // Replaced $.ajax with Vanilla JS fetch
+            var vlUrl_file = "/api/ar_customer_replica?vpid=";
+            var vlUrl = (typeof vgUrl_api !== "undefined" ? vgUrl_api : "") + vlUrl_file + vlParam_ID;            
+            var jwt = localStorage.getItem('jwt');
+                        
             fetch(vlUrl, {
                 method: 'GET',
                 headers: {
@@ -55,8 +81,7 @@
                 return response.json();
             })
             .then(function (obj) {
-                if (obj && obj.Data) {
-                    // Replaced $.each with standard Array.prototype.forEach
+                if (obj && obj.Data) {                    
                     obj.Data.forEach(function (item) {
                         if (item.ID) {
                             //vlID_Replica = item.ID;
@@ -64,6 +89,10 @@
 
                         if (item.Name) {
                             vlID_Name = item.Name;
+                            var vllabel_id_name_text = document.getElementById("label_id_name_text");
+                            if (vllabel_id_name_text) {
+                                vllabel_id_name_text.innerHTML += vlID_Name;
+                            }
                         }
 
                         if (item.ReplikaID) {
@@ -72,6 +101,11 @@
 
                         if (item.Mobile) {
                             vlID_MobileNo = item.Mobile;
+                            
+                            var vllabel_id_mobile_text = document.getElementById("label_id_mobile_text");
+                            if (vllabel_id_mobile_text) {                                
+                                vllabel_id_mobile_text.innerHTML += vlID_MobileNo;
+                            }
 
                             var label_WhatsappLink = document.getElementById("label_WhatsappLink");
                             if (label_WhatsappLink) {
@@ -84,19 +118,23 @@
                                 label_WhatsappFloating.href = "https://wa.me/" + vlID_MobileNo;
                             }
 
-                            var vllabel_id_mobile_text = document.getElementById("label_id_mobile_text");
-                            if (vllabel_id_mobile_text) {
-                                vllabel_id_mobile_text.innerHTML += "Whatsapp:";
-                            }
+                            
                         }
 
-                        if (item.Email) {
-                            vlID_Email = item.Email;
-                            var vllabel_id_email_text = document.getElementById("label_id_email_text");
-                            if (vllabel_id_email_text) {
-                                vllabel_id_email_text.innerHTML += vlID_Email;
+                        if (item.email) {
+                            vlID_Email = item.email; 
+                            
+                            var vllabel_id_email_nav_text = document.getElementById("label_id_email_nav_text");
+                            if (vllabel_id_email_nav_text) {
+                                vllabel_id_email_nav_text.innerHTML += vlID_Email;
+                            }
+
+                            var vllabel_id_email_body_text = document.getElementById("label_id_email_body_text");
+                            if (vllabel_id_email_body_text) {
+                                vllabel_id_email_body_text.innerHTML += vlID_Email;
                             }
                         }
+                        
 
                         if (item.Website) {
                             vlID_Website = item.Website;
@@ -115,42 +153,50 @@
 
 <body>
     <header>
-        <div>
-            <ul>
-                <li>
-                    <a id="label_WhatsappLink" href="" target="_blank">
-                        <span id="label_id_mobile_text"></span>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)" target="_blank">
-                        <span id="label_id_email_text"></span>
-                    </a>
-                </li>
-            </ul>
+        <div>            
+            <a id="label_WhatsappLink" href="" target="_blank">
+                <span id="label_id_mobile_nav_text"></span>
+            </a>
+            |
+            <a href="javascript:void(0)">
+                <span id="label_id_email_nav_text"></span>
+            </a>      
         </div>
     </header>
 
+    <br><hr>
+
     <main>
         <section>
-            <h1>Lorem Ipsum Dolor</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac convallis nisl. Phasellus eget tortor sed risus pellentesque interdum ut vitae metus.</p>
+            <h2>Introduction Section</h1>
+            <p>
+                Hi, my name is <span id="label_id_name_text"></span>,
+                Welcome to my website! I'm glad you're here. Feel free to explore and learn more about my products and services.
+            </p>
         </section>
 
         <section>
-            <h2>Consectetur Adipiscing</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <h2>Product Section</h2>
+            <p>
+                We offer high-quality products designed to meet your needs. Our commitment is to provide reliable solutions, excellent value, and outstanding customer satisfaction. Browse our collection and discover what we have to offer.
+            </p>
         </section>
 
         <section>
-            <h2>Sed ut Perspiciatis</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mollis pretium lorem primis senectus habitasse erat lectus ad dictumst. Pretium non class ridiculus platea fames netus curae accumsan.</p>
+            <h2>Contact Section</h2>
+            <p>                
+                Have any questions or need assistance? Feel free to contact me by email at: <span id="label_id_email_body_text"></span>
+                or send me a WhatsApp message at: <span id="label_id_mobile_text"></span>. 
+                I'll be happy to help!
+            </p>
         </section>
+
+        
     </main>
 
-    <a id="label_WhatsappFloating" href="" target="_blank">
-        <span>Chat on WhatsApp</span>
-    </a>
+    <br><hr>
+
+    
 
     <footer>
         <p>&copy; 2026 All Rights Reserved.</p>

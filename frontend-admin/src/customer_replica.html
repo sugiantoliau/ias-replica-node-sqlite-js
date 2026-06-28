@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Customer Replica Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../shared/css/styles.css" rel="stylesheet">
+    <script src="../shared/js/script.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            fn_GetLookupID();            
+        });
+
+        function fn_GetLookupID() {
+            var url = window.location.href;
+            var searchParams = new URLSearchParams(new URL(url).search);
+            var vlParam_ID = searchParams.get('vpid');
+            if (vlParam_ID === null || vlParam_ID === "") {
+                alert('Empty data');
+                return;
+            }
+
+            var vlUrl_file = "/api/ar_customer_replica?vpid=";
+            var vlUrl = (typeof vgUrl_api !== "undefined" ? vgUrl_api : "") + vlUrl_file + vlParam_ID;            
+
+            fetch(vlUrl, {
+                method: 'GET'
+            })
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Server responded with status ' + response.status);
+                }
+                return response.json();
+            })
+            .then(function (response) {
+                if (response && response.Status === 200 && response.Data) {
+                    response.Data.forEach(function (item) {
+                        if (item.ID) {
+                            document.getElementById("lbID_value").innerText = item.ID;
+                        }
+
+                        if (item.Name) {
+                            document.getElementById("lbName_value").innerText = item.Name;                            
+                        }
+
+                        if (item.replika_id) {
+                            document.getElementById("lbReplicaID_value").innerText = item.replika_id;
+                        }
+
+                        if (item.Mobile) {
+                            document.getElementById("lbMobile_value").innerText = item.Mobile;
+                        }
+
+                        if (item.email) {
+                            document.getElementById("lbEmail_value").innerText = item.email;
+                        }
+                    });
+                } else {
+                    console.error("Invalid response or missing data.");
+                }
+            })
+            .catch(function (error) {
+                alert('Error: ' + error.message);
+            });
+        }
+    </script>
+</head>
+
+<body>   
+    <div id="pnHEADER">
+        <label for="lbTitle">
+            <b><h3>Customer Replica Information</h3></b>
+        </label>
+        <br>
+        <label id="lbMessage"></label>
+    </div>
+
+    <div id="pnFILL">
+        <label for="lbID"><b>ID:</b></label>
+        <div id="lbID_value" class="display-field">-</div>
+
+        <label for="lbName"><b>Name:</b></label>
+        <div id="lbName_value" class="display-field">-</div>
+      
+        <label for="lbReplicaID"><b>Replica ID:</b></label>
+        <div id="lbReplicaID_value" class="display-field">-</div>
+
+        <label for="lbMobile"><b>Mobile:</b></label>
+        <div id="lbMobile_value" class="display-field">-</div>
+
+        <label for="lbEmail"><b>Email:</b></label>
+        <div id="lbEmail_value" class="display-field">-</div>
+
+        <label for="lbWebsite"><b>Website:</b></label>
+        <div id="lbWebsite_value" class="display-field">-</div>
+    </div>
+    
+</body>
+
+</html>

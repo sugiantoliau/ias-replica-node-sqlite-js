@@ -18,7 +18,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Helvetica, Arial, sans-serif;
             background: var(--bg-gradient);
             color: var(--text-main);
             min-height: 100vh;
@@ -128,46 +128,73 @@
 
     <div class="container">
         <header>
-            <h1>Application Portal Hub</h1>
-            <p>Select a decoupled module interface component below to manage records</p>
+            <h1>Application Portal Hub</h1>            
         </header>
 
         <main class="grid">
             <div class="card">
                 <div>
-                    <h2>Main Landing Page</h2>
-                    <p>Lorem ipsum dolor sit amet, entry layout configurations and general visitor landing parameters.</p>
+                    <h2>Home</h2>
+                    <p>
+                        Ini adalah halaman beranda
+                        <br><br>
+                        This is the home page
+                    </p>
                 </div>
-                <a href="./index.html" target="_blank" class="btn">Launch Page</a>
+                <a href="./index.html" class="btn">Open Page</a>
             </div>
             
             <div class="card">
                 <div>
                     <h2>Customer Registration</h2>
-                    <p>Lorem ipsum dolor sit amet, simplified client self-enrollment form utilizing standard fetch APIs.</p>
+                    <p>
+                        Daftarkan informasi replika pelanggan pada formulir ini
+                        <br><br>
+                        Register replica customer information in this form
+                    </p>
                 </div>
-                <a href="../frontend-admin/src/customer_registration.html" target="_blank" class="btn">Open Registration</a>
+                <a href="../frontend-admin/src/customer_registration.html" target="_blank" class="btn">Open Page</a>
             </div>
 
             <div class="card">
                 <div>
                     <h2>Customer Database List</h2>
-                    <p>Lorem ipsum dolor sit amet, layout parsing verification and active verification structures.</p>
+                    <p>
+                        Lihat daftar pelanggan yang sudah dibuatkan data replika
+                        <br><br>
+                        View the list of customers for whom replica data has been created
+                    </p>
                 </div>
-                <a href="../frontend-admin/src/customer_list.html" target="_blank" class="btn">View Records</a>
+                <a href="../frontend-admin/src/customer_list.html" target="_blank" class="btn">Open Page</a>
+            </div>
+
+            <div class="card">
+                <div>
+                    <h2>Customer Replica View</h2>
+                    <p>
+                        Lihat data replika pelanggan. Contoh ini menggunakan Customer ID "cust01" yang telah dibuat sebelumnya.
+                        <br><br>
+                        View the customer's replica data. This example uses Customer ID "cust01" created earlier.
+                    </p>
+                </div>
+                <a href="../frontend-admin/src/customer_replica.html?vpid=mystore01" target="_blank" class="btn">Open Page</a>
             </div>
 
             <div class="card">
                 <div>
                     <h2>Store Replica View</h2>
-                    <p>Lorem ipsum dolor sit amet, dynamic runtime user queries and personalized replica interfaces.</p>
+                    <p>
+                        Lihat contoh penggunaan data replika pada website untuk Customer ID "cust01".
+                        <br><br>
+                        View an example of replica data usage on a website for Customer ID "cust01".
+                    </p>
                 </div>
-                <a href="../frontend-replica/src/index.html" target="_blank" class="btn">Open Store</a>
+                <a href="../frontend-replica/src/index.html?vpid=mystore01" target="_blank" class="btn">Open Page</a>
             </div>
         </main>
 
         <footer>
-            <p>&copy; 2026 Core Infrastructure Portal Hub. All rights reserved.</p>
+            <p>Portal Hub @2026</p>
         </footer>
     </div>
 

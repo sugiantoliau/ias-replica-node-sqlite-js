@@ -1,32 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Web Replica Data v1.0</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Management List</title>
+    
+    <link href="../shared/css/styles.css" rel="stylesheet">
+    <script src="../shared/js/script.js"></script>    
 
-    <link href="../shared/pagesetting/styles.css" rel="stylesheet">
-    <script src="../shared/pagesetting/script.js"></script>    
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #f7fafc;
+            color: #2d3748;
+            padding: 30px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        h2 {
+            margin-top: 0;
+            color: #1a202c;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 12px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            text-align: left;
+        }
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+        }
+        th {
+            background-color: #f8fafc;
+            color: #4a5568;
+            font-weight: 600;
+        }
+        tr:hover {
+            background-color: #f8fafc;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 6px 10px;
+            border: 1px solid #cbd5e0;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn-edit {
+            background-color: #3182ce;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        .btn-edit:hover { background-color: #2b6cb0; }
+        
+        .btn-delete {
+            background-color: #e53e3e;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-delete:hover { background-color: #c53030; }
+    </style>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            fn_GetLookupID();
+            if (typeof fn_whatsapp_floating === "function") {
+                fn_whatsapp_floating();
+            }
+            fn_LoadCustomerList();
         });
 
-        function fn_GetLookupID() {
-            var url = window.location.href;
-            var searchParams = new URLSearchParams(new URL(url).search);
-            var vlParam_ID = searchParams.get('vpid');
-            if (vlParam_ID === null || vlParam_ID === "") {
-                alert('Empty data');
-                return;
-            }
-
-            var vlUrl_file = "/api/ar_replica?vpid=";
-            var vlUrl = (typeof vgUrl_api !== "undefined" ? vgUrl_api : "") + vlUrl_file + vlParam_ID;
+        // Fetch list from backend API
+        function fn_LoadCustomerList() {
+            var vlUrl_file = "/api/ar_customer_list";
+            var vlUrl = (typeof vgUrl_api !== "undefined" ? vgUrl_api : "") + vlUrl_file;
 
             fetch(vlUrl, {
-                method: 'GET'
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + (typeof vgJWT !== "undefined" ? vgJWT : "")
+                }
             })
             .then(function (response) {
                 if (!response.ok) {
@@ -34,68 +103,145 @@
                 }
                 return response.json();
             })
-            .then(function (response) {
-                if (response && response.Status === 200 && response.Data) {
-                    response.Data.forEach(function (item) {
-                        if (item.ID) {
-                            document.getElementById("lbID_value").innerText = item.ID;
-                        }
-
-                        if (item.Name) {
-                            document.getElementById("lbName_value").innerText = item.Name;
-                            document.getElementById("lbName2_value").innerText = item.Name;
-                        }
-
-                        if (item.replika_id) {
-                            document.getElementById("lbReplicaID_value").innerText = item.replika_id;
-                        }
-
-                        if (item.Mobile) {
-                            document.getElementById("lbMobile_value").innerText = item.Mobile;
-                        }
-
-                        if (item.email) {
-                            document.getElementById("lbEmail_value").innerText = item.email;
-                        }
-                    });
+            .then(function (resData) {
+                if (resData.Status === 200) {
+                    fn_RenderTable(resData.Data);
                 } else {
-                    console.error("Invalid response or missing data.");
+                    alert('Failed to fetch records: ' + resData.Message);
                 }
             })
             .catch(function (error) {
-                alert('Error: ' + error.message);
+                alert('Error fetching customer list: ' + error.message);
+            });
+        }
+
+        // Generate Table Rows dynamically
+        function fn_RenderTable(customers) {
+            var tbody = document.getElementById("customerTableBody");
+            tbody.innerHTML = "";
+
+            if (!customers || customers.length === 0) {
+                tbody.innerHTML = "<tr><td colspan='7' style='text-align:center;'>No records found</td></tr>";
+                return;
+            }
+
+            customers.forEach(function (cust) {
+                var tr = document.createElement("tr");
+
+                tr.innerHTML = `
+                    <td><b>${cust.customer_id}</b></td>
+                    <td><input type="text" id="name_${cust.customer_id}" value="${cust.customer_name || ''}"></td>
+                    <td><input type="text" id="mobile_${cust.customer_id}" value="${cust.mobile1 || ''}"></td>
+                    <td><input type="text" id="email_${cust.customer_id}" value="${cust.email || ''}"></td>
+                    <td><input type="text" id="replica_${cust.customer_id}" value="${cust.replika_id || ''}"></td>
+                    <td><input type="text" id="status_${cust.customer_id}" value="${cust.record_status || ''}" style="width:70px;"></td>
+                    <td>
+                        <button class="btn-edit" onclick="fn_UpdateCustomer('${cust.customer_id}')">Save</button>
+                        <button class="btn-delete" onclick="fn_DeleteCustomer('${cust.customer_id}')">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Action: Update row changes
+        function fn_UpdateCustomer(customerId) {
+            var vlUrl_file = "/api/ar_customer_update";
+            var vlUrl = (typeof vgUrl_api !== "undefined" ? vgUrl_api : "") + vlUrl_file;
+
+            var payload = {
+                vpCustomerid: customerId,
+                vpName: document.getElementById("name_" + customerId).value,
+                vpMobileNo: document.getElementById("mobile_" + customerId).value,
+                vpEmail: document.getElementById("email_" + customerId).value,
+                vpReplicaid: document.getElementById("replica_" + customerId).value,
+                vpRecordStatus: document.getElementById("status_" + customerId).value
+            };
+
+            fetch(vlUrl, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + (typeof vgJWT !== "undefined" ? vgJWT : "")
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Server responded with status ' + response.status);
+                }
+                return response.json();
+            })
+            .then(function (data) {
+                alert('Record updated successfully!');
+                fn_LoadCustomerList();
+            })
+            .catch(function (error) {
+                alert('Update Error: ' + error.message);
+            });
+        }
+
+        // Action: Delete row entry
+        function fn_DeleteCustomer(customerId) {
+            if (!confirm("Are you sure you want to permanently delete customer ID: " + customerId + "?")) {
+                return;
+            }
+            
+            var vlUrl_file = "/api/ar_customer_delete";
+            var vlUrl = (typeof vgUrl_api !== "undefined" ? vgUrl_api : "") + vlUrl_file;
+
+            var payload = {
+                vpCustomerid: customerId
+            };
+
+            fetch(vlUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + (typeof vgJWT !== "undefined" ? vgJWT : "")
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(function (response) {
+                if (!response.ok) {
+                    throw new Error('Server responded with status ' + response.status);
+                }
+                return response.json();
+            })
+            .then(function (data) {
+                alert('Record deleted successfully!');
+                fn_LoadCustomerList();
+            })
+            .catch(function (error) {
+                alert('Delete Error: ' + error.message);
             });
         }
     </script>
 </head>
 
-<body>
-    <label for="lbID">ID:</label>
-    <br>
-    <label id="lbID_value"></label>
-    <br><br>
-
-    <label for="lbName">Name:</label>
-    <br>
-    <label id="lbName_value"></label>
-    <br>
-    <label id="lbName2_value"></label>
-    <br><br>
-
-    <label for="lbReplicaID">ReplicaID:</label>
-    <br>
-    <label id="lbReplicaID_value"></label>
-    <br><br>
-
-    <label for="lbMobile">Mobile:</label>
-    <br>
-    <label id="lbMobile_value"></label>
-    <br><br>
-
-    <label for="lbEmail">Email:</label>
-    <br>
-    <label id="lbEmail_value"></label>
-    <br><br>
+<body>   
+    <div class="container">
+        <h2>Customer Database Records</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 10%;">Customer ID</th>
+                    <th style="width: 20%;">Name</th>
+                    <th style="width: 15%;">Mobile No</th>
+                    <th style="width: 20%;">Email Address</th>
+                    <th style="width: 15%;">Replica ID</th>
+                    <th style="width: 10%;">Status</th>
+                    <th style="width: 10%;">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="customerTableBody">
+                <tr>
+                    <td colspan="7" style="text-align: center; color: #718096;">Loading database contents...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>

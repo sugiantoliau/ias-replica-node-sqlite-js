@@ -2,12 +2,10 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
+    <title>Customer Replica Registration</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reseller Registration</title>
-    
-    <link href="../shared/pagesetting/styles.css" rel="stylesheet">
-    <script src="../shared/pagesetting/script.js"></script>
+    <link href="../shared/css/styles.css" rel="stylesheet">
+    <script src="../shared/js/script.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -16,16 +14,33 @@
             }
             fn_GetLookupID();
         });
+
+        function fn_SampleData() {
+            document.getElementById('txUserId').value = 'user01';
+            document.getElementById('txCustomerId').value = 'cust01';
+            document.getElementById('txName').value = 'zero one';
+            document.getElementById('txMobile').value = '081123456789';
+            document.getElementById('txEmail').value = 'cust01@gmail.com';
+            document.getElementById('txReplicaId').value = 'mystore01';
+        }
         
         function fn_Clear() {
-            document.getElementById('txReffID').value = '';
-            document.getElementById('txUserID').value = '';
+            document.getElementById('txReffId').value = '';
+            document.getElementById('txUserId').value = '';
             document.getElementById('txPassword').value = '';
             document.getElementById('txRePassword').value = '';
+            document.getElementById('txCustomerId').value = '';
             document.getElementById('txName').value = '';
             document.getElementById('txMobile').value = '';
             document.getElementById('txEmail').value = '';
-            document.getElementById('txReplicaID').value = '';
+            document.getElementById('txReplicaId').value = '';
+
+            document.getElementById('txUserId').value = 'user001';
+            document.getElementById('txCustomerId').value = 'cust001';
+            document.getElementById('txName').value = 'Name 001';
+            document.getElementById('txMobile').value = '081123456789';
+            document.getElementById('txEmail').value = 'cust01@gmail.com';
+            document.getElementById('txReplicaId').value = 'cust01 repl';
         }
 
         function fn_FormAction() {
@@ -39,7 +54,7 @@
             var url = window.location.href;
             var searchParams = new URLSearchParams(new URL(url).search);
             var vlParam_ID = searchParams.get('vpid');
-            var vlObj = document.getElementById("txReffID");
+            var vlObj = document.getElementById("txReffId");
             
             if (vlParam_ID === null) {
                 vlParam_ID = "";
@@ -58,28 +73,34 @@
         function fn_Form_Verification() {
             var vlObj, vlObj2;
 
-            vlObj = document.getElementById('txUserID').value;
+            vlObj = document.getElementById('txUserId').value;
             if (!vlObj || vlObj.trim() === "") {
-                alert('Fill in the Userid');
-                return false;
+                //alert('Fill in the Userid');
+                //return false;
             }
 
             vlObj = document.getElementById('txPassword').value;
             if (!vlObj || vlObj.trim() === "") {
-                alert('Fill in the Password');
-                return false;
+                //alert('Fill in the Password');
+                //return false;
             }
 
             vlObj = document.getElementById('txRePassword').value;
             if (!vlObj || vlObj.trim() === "") {
-                alert('Fill in the Re Type Password');
-                return false;
+                //alert('Fill in the Re Type Password');
+                //return false;
             }
             
             vlObj = document.getElementById('txPassword').value;
             vlObj2 = document.getElementById('txRePassword').value;
             if (vlObj != vlObj2) {
-                alert('Fill in the Password and Retype Password is not same');
+                //alert('Fill in the Password and Retype Password is not same');
+                //return false;
+            }
+
+            vlObj = document.getElementById('txCustomerId').value;
+            if (!vlObj || vlObj.trim() === "") {
+                alert('Fill in Customer id');
                 return false;
             }
 
@@ -116,9 +137,9 @@
                 }
             }
 
-            vlObj = document.getElementById('txReplicaID').value;
+            vlObj = document.getElementById('txReplicaId').value;
             if (!vlObj || vlObj.trim() === "") {
-                alert('Fill in Nama Toko');
+                alert('Fill in Replica Id');
                 return false;
             }         
             return true;
@@ -127,15 +148,17 @@
         function fn_Form_Action() {
             var vlUrl_file = "/api/ar_customer_self_enroll";
             var vlUrl = (typeof vgUrl_api !== "undefined" ? vgUrl_api : "") + vlUrl_file;
+            
 
             var payload = {
-                vpReffID: document.getElementById("txReffID").value,
-                vpUsername: document.getElementById("txUserID").value,
+                vpReffID: document.getElementById("txReffId").value,                               
+                vpUsername: document.getElementById("txUserId").value,
+                vpCustomerid: document.getElementById("txCustomerId").value,
                 vpPassword: document.getElementById("txPassword").value,
                 vpName: document.getElementById("txName").value,
                 vpMobileNo: document.getElementById("txMobile").value,
                 vpEmail: document.getElementById("txEmail").value,
-                vpReplicaid: document.getElementById("txReplicaID").value
+                vpReplicaid: document.getElementById("txReplicaId").value
             };
 
             fetch(vlUrl, {
@@ -173,14 +196,14 @@
     </div>
 
     <div id="pnFILL">
-        <label for="txReffID">Referral ID</label>
+        <label for="txReffId">Referral ID</label>
         <br>
-        <input type="text" id="txReffID" placeholder="Masukkan Referral ID">
+        <input type="text" id="txReffId" placeholder="Masukkan Referral ID">
         <br><br>
 
-        <label for="txUserID">Userid:</label>
+        <label for="txUserId">Userid:</label>
         <br>
-        <input type="text" id="txUserID" placeholder="Masukkan Userid">
+        <input type="text" id="txUserId" placeholder="Masukkan Userid">
         <br><br>
 
         <label for="txPassword">Password:</label>
@@ -193,12 +216,18 @@
         <input type="password" id="txRePassword" placeholder="Masukkan Password">
         <br><br>
 
-        <label for="txName">Nama:</label>
+
+        <label for="txUserId">Customer id:</label>
+        <br>
+        <input type="text" id="txCustomerId" placeholder="Masukkan Userid">
+        <br><br>        
+
+        <label for="txName">Name:</label>
         <br>
         <input type="text" id="txName" placeholder="Masukkan Nama">
         <br><br>
 
-        <label for="txMobile">No Handphone:</label>
+        <label for="txMobile">Mobile No:</label>
         <br>
         <input type="text" id="txMobile" placeholder="Masukkan No Handphone">
         <br><br>
@@ -208,14 +237,15 @@
         <input type="text" id="txEmail" placeholder="Masukkan alamat email">
         <br><br>
 
-        <label for="txReplicaID">Nama Toko:</label>
+        <label for="txReplicaId">Replica ID:</label>
         <br>
-        <input type="text" id="txReplicaID" placeholder="Masukkan Nama Toko yang diinginkan">
+        <input type="text" id="txReplicaId" placeholder="Masukkan Nama Toko yang diinginkan">
         <br><br>
 
         <div class="btn-group">
             <button type="button" onclick="fn_FormAction()">Save</button>
-            <button type="button" onclick="fn_Clear()">Cancel</button>
+            <button type="button" onclick="fn_Clear()">Cancel</button>            
+            <button type="button" onclick="fn_SampleData()">Load Sample Data</button>
         </div>
     </div>
 </body>

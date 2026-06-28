@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 const dbDir = path.join(__dirname, '../../database');
-const dbPath = path.join(dbDir, 'customer.db');
+const dbPath = path.join(dbDir, 'local_dev.db');
 
 if (!fs.existsSync(dbDir)) {
     fs.mkdirSync(dbDir, { recursive: true });
