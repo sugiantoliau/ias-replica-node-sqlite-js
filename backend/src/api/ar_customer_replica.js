@@ -37,7 +37,7 @@ router.post('/ar_customer_replica', (req, res) => {
   try {    
     const vlId = req.body.vpid;
     const params = [];
-    let vlSql = 'SELECT customer_id as ID, customer_name as Name, replika_id, mobile1 as Mobile, email FROM ar_customer';
+    let vlSql = 'SELECT customer_id as ID, customer_name as Name, replika_id as ReplikaId, mobile1 as Mobile, email FROM ar_customer';
     
     if (vlId) {
       vlSql += ' WHERE replika_id = ?';

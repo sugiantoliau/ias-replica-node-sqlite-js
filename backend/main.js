@@ -2,6 +2,7 @@
 
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const db = require('./src/config/db.js');
 
 const arCustomerSelfEnroll = require('./src/api/ar_customer_self_enroll.js');

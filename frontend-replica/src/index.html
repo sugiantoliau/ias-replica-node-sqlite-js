@@ -8,9 +8,11 @@
 
     <!-- START Whatsapp Floating -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
-    <style>
+    <style>        
         /* Add WA floating button CSS */
         .floating {
+            /* Changed default style to hidden so it only shows when data tells it to */
+            display: none; 
             position: fixed;
             width: 60px;
             height: 60px;
@@ -36,16 +38,16 @@
     <!-- END Whatsapp Floating -->
 
     <script>
-        var vlID_Replica;
-        var vlID_MobileNo;
-        var vlID_Email;
-        var vlID_Website;
-        var vlID_Store;
-
-        document.addEventListener("DOMContentLoaded", function () {
-            fn_GetLookupID();            
-        });
-
+        var vlId;
+        var vlId_Replica;
+        var vlMobileNo;
+        var vlEmail;
+        var vlWebsite;
+        var vlId_Store;
+        var vlToggleWhatsappFloating;
+                
+        vlToggleWhatsappFloating = false;
+        
         function fn_GetLookupID() {
             var url = window.location.href;
             var searchParams = new URLSearchParams(new URL(url).search);
@@ -54,11 +56,18 @@
             if (vlParam_ID !== null && vlParam_ID !== "") {
                 localStorage.setItem('idreplica', vlParam_ID);
             }
-
+            
             if (vlParam_ID === null || vlParam_ID === "") {
                 vlParam_ID = localStorage.getItem('idreplica');
+                if (url.indexOf('vpid=') === -1) { 
+                    localStorage.removeItem('idreplica');
+                    vlParam_ID = null;
+                }
+
                 if (vlParam_ID === null || vlParam_ID === "") {
                     console.error("empty data");
+                    vlToggleWhatsappFloating = false;
+                    fn_ToggleWhatsappFloating(vlToggleWhatsappFloating);
                     return;
                 }
             }
@@ -81,10 +90,13 @@
                 return response.json();
             })
             .then(function (obj) {
-                if (obj && obj.Data) {                    
+                if (obj && obj.Data && obj.Data.length > 0) {
+                    vlToggleWhatsappFloating = true;                            
+                    fn_ToggleWhatsappFloating(vlToggleWhatsappFloating);
+                    
                     obj.Data.forEach(function (item) {
                         if (item.ID) {
-                            //vlID_Replica = item.ID;
+                            vlId = item.ID;
                         }
 
                         if (item.Name) {
@@ -96,48 +108,45 @@
                         }
 
                         if (item.ReplikaID) {
-                            vlID_Replica = item.ID;
+                            vlId_Replica = item.ReplikaId;                           
                         }
 
                         if (item.Mobile) {
-                            vlID_MobileNo = item.Mobile;
+                            vlMobileNo = item.Mobile;
                             
                             var vllabel_id_mobile_text = document.getElementById("label_id_mobile_text");
                             if (vllabel_id_mobile_text) {                                
-                                vllabel_id_mobile_text.innerHTML += vlID_MobileNo;
+                                vllabel_id_mobile_text.innerHTML += vlMobileNo;
                             }
 
                             var label_WhatsappLink = document.getElementById("label_WhatsappLink");
                             if (label_WhatsappLink) {
-                                label_WhatsappLink.href = "https://wa.me/" + vlID_MobileNo;
-                                label_WhatsappLink.innerHTML += " " + vlID_MobileNo;
+                                label_WhatsappLink.href = "https://wa.me/" + vlMobileNo;
+                                label_WhatsappLink.innerHTML += " " + vlMobileNo;
                             }
 
                             var label_WhatsappFloating = document.getElementById("label_WhatsappFloating");
                             if (label_WhatsappFloating) {
-                                label_WhatsappFloating.href = "https://wa.me/" + vlID_MobileNo;
+                                label_WhatsappFloating.href = "https://wa.me/" + vlMobileNo;
                             }
-
-                            
                         }
 
                         if (item.email) {
-                            vlID_Email = item.email; 
+                            vlEmail = item.email; 
                             
                             var vllabel_id_email_nav_text = document.getElementById("label_id_email_nav_text");
                             if (vllabel_id_email_nav_text) {
-                                vllabel_id_email_nav_text.innerHTML += vlID_Email;
+                                vllabel_id_email_nav_text.innerHTML += vlEmail;
                             }
 
                             var vllabel_id_email_body_text = document.getElementById("label_id_email_body_text");
                             if (vllabel_id_email_body_text) {
-                                vllabel_id_email_body_text.innerHTML += vlID_Email;
+                                vllabel_id_email_body_text.innerHTML += vlEmail;
                             }
-                        }
-                        
+                        }                        
 
                         if (item.Website) {
-                            vlID_Website = item.Website;
+                            vlWebsite = item.Website;
                         }
                     });
                 } else {
@@ -148,6 +157,18 @@
                 alert('Error: ' + error.message);
             });
         }
+        
+        function fn_ToggleWhatsappFloating(isVisible) {
+            var label_WhatsappFloating = document.getElementById("label_WhatsappFloating");
+            if (label_WhatsappFloating) {
+                label_WhatsappFloating.style.display = isVisible ? "block" : "none";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fn_GetLookupID();
+            fn_ToggleWhatsappFloating(vlToggleWhatsappFloating);
+        });
     </script>
 </head>
 
@@ -168,7 +189,7 @@
 
     <main>
         <section>
-            <h2>Introduction Section</h1>
+            <h2>Introduction Section</h2>
             <p>
                 Hi, my name is <span id="label_id_name_text"></span>,
                 Welcome to my website! I'm glad you're here. Feel free to explore and learn more about my products and services.
@@ -190,13 +211,9 @@
                 I'll be happy to help!
             </p>
         </section>
-
-        
     </main>
 
     <br><hr>
-
-    
 
     <footer>
         <p>&copy; 2026 All Rights Reserved.</p>
